@@ -1,7 +1,7 @@
 {
   "name": "appbitos",
   "version": "0.0.1",
-  "description": "BE para proyecto realizado por TrainIT para la plataforma Appbitos",
+  "description": "BE del proyecto realizado por TrainIT para la plataforma Appbitos",
   "keywords": [
     "loopback-application",
     "loopback"
