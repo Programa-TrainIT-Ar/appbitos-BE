@@ -1,15 +1,19 @@
 version: '3.5'
 
 services:
-  postgress:
-    container_name: postgress_appbitos
-    image: postgres:latest
+  postgres:
+    build:
+      context: .
+      dockerfile: ./dockerFiles/postgres/Dockerfile
+    container_name: postgres_appbitos
+    image: 'postgres-appbitos'
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: root
-      PGDATA: /data/postgres
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: ${PGDATA}
     volumes:
-        - postgres-db:/data/postgres
+        - appbitos-db:/data/appbitos
     ports:
         - "5432:5432"
   pgadmin:
@@ -24,6 +28,6 @@ services:
     volumes:
       - pgadmin-data:/var/lib/pgadmin
 volumes:
-  postgres-db:
+  appbitos-db:
     driver: local
   pgadmin-data:
