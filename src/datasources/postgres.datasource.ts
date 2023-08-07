@@ -2,10 +2,10 @@ import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
 //creado con lb4 datasourse
 const config = {
-  name: 'postgres',
+  name: 'appbitos_db',
   connector: 'postgresql',
   url: '',
-  host: 'localhost',
+  host: 'postgres',
   port: 5432,
   user: 'me',
   password: 'contrasena',
