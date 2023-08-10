@@ -9,7 +9,7 @@ const config = {
   port: 5432,
   user: 'me',
   password: 'contrasena',
-  database: 'root'
+  database: 'appbitos_db'
 };
 
 // Observe application's life cycle to disconnect the datasource when
