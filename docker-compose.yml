@@ -21,15 +21,3 @@ services:
       - "8080:80"
     depends_on:
       - postgres
-
-  app:
-    build: .
-    ports:
-      - "3000:3000"
-    volumes:
-      - .:/usr/src/app
-    working_dir: /usr/src/app
-    depends_on:
-      - postgres
-    command: npm start
-  

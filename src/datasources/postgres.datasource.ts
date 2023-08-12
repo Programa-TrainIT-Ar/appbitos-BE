@@ -5,8 +5,8 @@ const config = {
   name: 'postgres',
   connector: 'postgresql',
   url: '',
-  host: 'postgres',
-  port: 5432,
+  host: 'localhost',
+  port: 5433,
   user: 'me',
   password: 'contrasena',
   database: 'appbitos_db'
