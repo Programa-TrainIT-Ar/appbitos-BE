@@ -140,11 +140,4 @@ export class UsuarioController {
     await this.usuarioRepository.replaceById(id, usuario);
   }
 
-  @del('/usuarios/{id}')
-  @response(204, {
-    description: 'Usuario DELETE success',
-  })
-  async deleteById(@param.path.number('id') id: number): Promise<void> {
-    await this.usuarioRepository.deleteById(id);
-  }
 }
