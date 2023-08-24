@@ -140,5 +140,8 @@ export class UsuarioController {
     await this.usuarioRepository.replaceById(id, usuario);
   }
 
+
+
+
   
 }

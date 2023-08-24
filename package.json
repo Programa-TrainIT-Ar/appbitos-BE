@@ -57,6 +57,7 @@
     "@loopback/rest-explorer": "^6.1.1",
     "@loopback/service-proxy": "^6.1.1",
     "loopback-connector-mysql": "^7.0.0",
+   
     "loopback-connector-postgresql": "^5.5.2",
     "tslib": "^2.0.0"
   },
@@ -65,7 +66,7 @@
     "@loopback/eslint-config": "^14.0.2",
     "@loopback/testlab": "^6.1.1",
     "@types/node": "^16.18.38",
-    "concurrently": "^8.2.0",
+ 
     "eslint": "^8.45.0",
     "source-map-support": "^0.5.21",
     "typescript": "~5.1.6"
