@@ -1,6 +1,7 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Meta} from './meta.model';
 
-@model({settings: {strict: false}})
+@model({settings: {strict: true}})
 export class Usuario extends Entity {
   @property({
     type: 'number',
@@ -46,6 +47,26 @@ export class Usuario extends Entity {
     },
   })
   direccion?: object;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  mail: string;
+
+  @property({
+    type: 'boolean',
+    required: true,
+  })
+  activo: string;
+
+  @hasMany(() => Meta)
+  metas: Meta[];
+  @property({
+    type: 'string',
+    required: true,
+  })
+  nombre_usuario: string;
 
   // Define well-known properties here
 
