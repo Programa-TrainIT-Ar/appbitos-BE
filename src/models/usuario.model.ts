@@ -1,5 +1,6 @@
 import {Entity, model, property, hasMany} from '@loopback/repository';
 import {Meta} from './meta.model';
+import {UsuarioPremio} from './usuario-premio.model';
 
 @model({settings: {strict: true}})
 export class Usuario extends Entity {
@@ -9,6 +10,8 @@ export class Usuario extends Entity {
     generated: true,
   })
   id?: number;
+  
+  
 
   @property({
     type: 'string',
@@ -62,6 +65,9 @@ export class Usuario extends Entity {
 
   @hasMany(() => Meta)
   metas: Meta[];
+
+  @hasMany(() => UsuarioPremio)
+  usuarioPremios: UsuarioPremio[];
   @property({
     type: 'string',
     required: true,
