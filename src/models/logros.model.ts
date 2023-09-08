@@ -1,4 +1,6 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
+import {TareacompuestaLogro} from './tareacompuesta-logro.model';
+import {LogrosUsuario} from './logros-usuario.model';
 
 @model()
 export class Logros extends Entity {
@@ -21,6 +23,11 @@ export class Logros extends Entity {
   })
   fecha: string;
 
+  @hasMany(() => TareacompuestaLogro)
+  tareacompuestaLogroes: TareacompuestaLogro[];
+
+  @hasMany(() => LogrosUsuario)
+  logrosUsuarios: LogrosUsuario[];
 
   constructor(data?: Partial<Logros>) {
     super(data);

@@ -1,4 +1,6 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
+import {TareacompuestaLogro} from './tareacompuesta-logro.model';
+import {TareasimpleTareacompuesta} from './tareasimple-tareacompuesta.model';
 
 @model()
 export class TareaCompuesta extends Entity {
@@ -33,6 +35,16 @@ export class TareaCompuesta extends Entity {
   })
   id?: number;
 
+  @property({
+    type: 'number',
+  })
+  metaId?: number;
+
+  @hasMany(() => TareacompuestaLogro)
+  tareacompuestaLogroes: TareacompuestaLogro[];
+
+  @hasMany(() => TareasimpleTareacompuesta)
+  tareasimpleTareacompuestas: TareasimpleTareacompuesta[];
 
   constructor(data?: Partial<TareaCompuesta>) {
     super(data);

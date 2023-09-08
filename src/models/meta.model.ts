@@ -1,5 +1,6 @@
-import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {Entity, model, property, belongsTo, hasMany} from '@loopback/repository';
 import {Usuario} from './usuario.model';
+import {TareaCompuesta} from './tarea-compuesta.model';
 
 @model()
 export class Meta extends Entity {
@@ -36,6 +37,9 @@ export class Meta extends Entity {
 
   @belongsTo(() => Usuario)
   usuarioId: number;
+
+  @hasMany(() => TareaCompuesta)
+  tareaCompuestas: TareaCompuesta[];
 
   constructor(data?: Partial<Meta>) {
     super(data);
