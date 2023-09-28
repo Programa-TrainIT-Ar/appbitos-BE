@@ -19,6 +19,7 @@ import {
 } from '@loopback/rest';
 import {Usuario} from '../models';
 import {UsuarioRepository} from '../repositories';
+import {authenticate} from '@loopback/authentication';
 
 export class UsuarioController {
   constructor(
