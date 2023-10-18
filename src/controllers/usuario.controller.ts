@@ -16,14 +16,26 @@ import {
   del,
   requestBody,
   response,
+  HttpErrors,
 } from '@loopback/rest';
 import {Usuario} from '../models';
 import {UsuarioRepository} from '../repositories';
+import { service } from '@loopback/core';
+import { JwtService } from '../services';
+
+class Credenciales{
+  nombre_usuario: string;
+  password:string;
+}
 
 export class UsuarioController {
   constructor(
+    
     @repository(UsuarioRepository)
     public usuarioRepository : UsuarioRepository,
+    @service(JwtService)
+    public servicioJwt: JwtService
+
   ) {}
 
   @post('/usuarios')
@@ -139,5 +151,39 @@ export class UsuarioController {
   ): Promise<void> {
     await this.usuarioRepository.replaceById(id, usuario);
   }
+
+  @post('login',{
+    responses:{
+      '200':{
+        description: 'Identificacion de usaurios'
+    }
+  }
+  })
+  async identificar(
+
+  @requestBody() credenciales:Credenciales
+  
+  ): Promise<object>{
+
+    let usuario=await this.usuarioRepository.findOne({where:{nombre_usuario: credenciales.nombre_usuario, password: credenciales.password}});
+                                                  
+              if(usuario)   {
+               
+                let token =this.servicioJwt.CrearTokenJWT(usuario)
+                usuario.password='';
+                
+                return {
+                    usuario: usuario,
+                    token: token,
+                  }
+               }else{
+               
+                throw new HttpErrors[401]("Usuario o clave incorrectos")
+               
+              }                                
+  }
+  
+
+  
 
 }
