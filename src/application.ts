@@ -10,16 +10,7 @@ import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
 
-// ---------- AGREGADO PARA LA AUTENTICACION CON JWT -------------
-import {AuthenticationComponent} from '@loopback/authentication';
-import {
-  JWTAuthenticationComponent,
-  MyUserService,
-  SECURITY_SCHEME_SPEC,
-  UserServiceBindings,
- } from '@loopback/authentication-jwt';
-import { PostgresDataSource } from './datasources/';
-//----------------------------------------------------------------
+
 export {ApplicationConfig};
 
 export class AppbitosApplication extends BootMixin(
@@ -52,15 +43,8 @@ export class AppbitosApplication extends BootMixin(
     };
 
 
-  this.component(AuthenticationComponent);
-  // Mount jwt component
-  this.component(JWTAuthenticationComponent);
-  // Bind datasource
-  // This is where your User data will be stored.
-  this.dataSource(PostgresDataSource, UserServiceBindings.DATASOURCE_NAME);
-  // Bind the user service to the one in @loopback/authentication-jwt
-  this.bind(UserServiceBindings.USER_SERVICE).toClass(MyUserService);
+  
 
 
-  }
+}
 }
