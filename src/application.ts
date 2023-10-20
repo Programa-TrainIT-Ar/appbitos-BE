@@ -11,7 +11,6 @@ import {ServiceMixin} from '@loopback/service-proxy';
 import {MiddlewareContext, MiddlewareSequence} from '@loopback/rest';
 import path from 'path';
 import {MySequence} from './sequence';
-require ('dotenv').config();
 
 export {ApplicationConfig};
 
@@ -58,6 +57,5 @@ export class AppbitosApplication extends BootMixin(
         nested: true,
       },
     };
-
   }
 }

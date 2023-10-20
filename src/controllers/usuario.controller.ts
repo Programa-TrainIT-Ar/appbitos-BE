@@ -16,18 +16,22 @@ import {
   del,
   requestBody,
   response,
+  HttpErrors,
 } from '@loopback/rest';
 import {Usuario} from '../models';
 import {UsuarioRepository} from '../repositories';
-import {authenticate} from '@loopback/authentication';
 
 export class UsuarioController {
   constructor(
+    
     @repository(UsuarioRepository)
     public usuarioRepository : UsuarioRepository,
+    @service(JwtService)
+    public servicioJwt: JwtService
+
   ) {}
 
-  @post('/usuarios')
+  @post('/registrar_usuario')
   @response(200, {
     description: 'Usuario model instance',
     content: {'application/json': {schema: getModelSchemaRef(Usuario)}},
@@ -43,9 +47,9 @@ export class UsuarioController {
         },
       },
     })
-    usuario: Omit<Usuario, 'id'>,
-  ): Promise<Usuario> {
-    return this.usuarioRepository.create(usuario);
+    usuario: Usuario //Omit<Usuario, 'id'>,
+  ): Promise<Object> {    
+    return this.servicioJwt.DevolverTokenRegistro(usuario.mail, usuario);
   }
 
   @get('/usuarios/count')
@@ -139,6 +143,21 @@ export class UsuarioController {
     @requestBody() usuario: Usuario,
   ): Promise<void> {
     await this.usuarioRepository.replaceById(id, usuario);
+  }
+
+  @post('login',{
+    responses:{
+      '200':{
+        description: 'Identificacion de usuarios',
+        content: {'application/json': {schema: getModelSchemaRef(Credenciales)}}
+    }
+  }
+  })
+  async identificar(
+  @requestBody() credenciales:Credenciales
+  
+  ): Promise<object>{      
+    return this.servicioJwt.DevolverTokenLogin(credenciales.nombre_usuario, credenciales.password)
   }
 
 }

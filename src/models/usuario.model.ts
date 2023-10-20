@@ -12,8 +12,6 @@ export class Usuario extends Entity {
   })
   id?: number;
   
-  
-
   @property({
     type: 'string',
     required: true,
@@ -60,9 +58,22 @@ export class Usuario extends Entity {
 
   @property({
     type: 'boolean',
-    required: true,
+    required: false,
   })
   activo: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  nombre_usuario: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  password: string;
+
 
   @hasMany(() => Meta)
   metas: Meta[];
@@ -72,11 +83,7 @@ export class Usuario extends Entity {
 
   @hasMany(() => LogrosUsuario)
   logrosUsuarios: LogrosUsuario[];
-  @property({
-    type: 'string',
-    required: true,
-  })
-  nombre_usuario: string;
+  
 
   // Define well-known properties here
 
