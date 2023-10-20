@@ -25,6 +25,10 @@ import { service } from '@loopback/core';
 import { create } from 'domain';
 
 
+class Credenciales{
+  nombre_usuario: string;
+  password:string;
+}
 
 export class UsuarioController {
   constructor(
