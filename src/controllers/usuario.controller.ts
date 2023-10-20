@@ -20,6 +20,11 @@ import {
 } from '@loopback/rest';
 import {Usuario} from '../models';
 import {UsuarioRepository} from '../repositories';
+import { JwtService } from '../services';
+import { service } from '@loopback/core';
+import { create } from 'domain';
+
+
 
 export class UsuarioController {
   constructor(
