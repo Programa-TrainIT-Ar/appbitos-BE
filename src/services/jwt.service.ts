@@ -1,6 +1,9 @@
 import {injectable, /* inject, */ BindingScope} from '@loopback/core';
 import { Usuario } from '../models';
-import { TS_TYPE_KEY } from '@loopback/rest';
+import { HttpErrors, TS_TYPE_KEY } from '@loopback/rest';
+import {UsuarioRepository} from '../repositories';
+import { repository } from '@loopback/repository';
+
 
 const jwt=require('jsonwebtoken')
 const jwtKey='ClaveAppbitos';
@@ -8,8 +11,10 @@ const expTimeJwt=(Date.now() / 1000) + (60 * 60 * 10);
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class JwtService {
-  constructor(/* Add @inject to inject parameters */) {}
+  constructor( @repository(UsuarioRepository)
+  public usuarioRepository : UsuarioRepository) {}
 
+  
   //GENERACION DE TOKEN JWT
 
   CrearTokenJWT(usuario: Usuario){
@@ -28,5 +33,29 @@ export class JwtService {
     return token;
 
   }
-  
+
+  async DevolverToken(nombre_usuario:String, password: String){
+
+       let usuario=await this.usuarioRepository.findOne({where:{nombre_usuario: nombre_usuario, password: password}});
+
+                                            
+       if(usuario)   {
+               
+        let token =this.CrearTokenJWT(usuario)
+        usuario.password='';
+        
+        return {
+            usuario: usuario,
+            token: token,
+          }
+       }else{
+       
+        throw new HttpErrors[401]("Usuario o clave incorrectos")
+       
+      }                     
+
+    }
+
 }
+
+

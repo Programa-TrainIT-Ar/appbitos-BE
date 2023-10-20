@@ -23,6 +23,9 @@ import {UsuarioRepository} from '../repositories';
 import { service } from '@loopback/core';
 import { JwtService } from '../services';
 
+
+var passport =require('passport');
+
 class Credenciales{
   nombre_usuario: string;
   password:string;
@@ -155,34 +158,27 @@ export class UsuarioController {
   @post('login',{
     responses:{
       '200':{
-        description: 'Identificacion de usaurios'
+        description: 'Identificacion de usuarios',
+        content: {'application/json': {schema: getModelSchemaRef(Credenciales)}}
     }
   }
   })
   async identificar(
-
   @requestBody() credenciales:Credenciales
   
   ): Promise<object>{
+   
+    try{
+      
+      return this.servicioJwt.DevolverToken(credenciales.nombre_usuario, credenciales.password)
 
-    let usuario=await this.usuarioRepository.findOne({where:{nombre_usuario: credenciales.nombre_usuario, password: credenciales.password}});
-                                                  
-              if(usuario)   {
-               
-                let token =this.servicioJwt.CrearTokenJWT(usuario)
-                usuario.password='';
-                
-                return {
-                    usuario: usuario,
-                    token: token,
-                  }
-               }else{
-               
-                throw new HttpErrors[401]("Usuario o clave incorrectos")
-               
-              }                                
+    }catch(err){
+      throw new HttpErrors[401]("Usuario o clave incorrectos")
+    }
+
   }
   
+
 
   
 
