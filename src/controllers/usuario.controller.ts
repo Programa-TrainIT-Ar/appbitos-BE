@@ -155,7 +155,8 @@ export class UsuarioController {
   @post('login',{
     responses:{
       '200':{
-        description: 'Identificacion de usaurios'
+        description: 'Identificacion de usaurios',
+        content: {'application/json': {schema: Credenciales}},
     }
   }
   })
