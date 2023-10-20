@@ -23,6 +23,9 @@ import {UsuarioRepository} from '../repositories';
 import { service } from '@loopback/core';
 import { JwtService } from '../services';
 
+
+var passport =require('passport');
+
 class Credenciales{
   nombre_usuario: string;
   password:string;
@@ -38,7 +41,7 @@ export class UsuarioController {
 
   ) {}
 
-  @post('/usuarios')
+  @post('/registrar_usuario')
   @response(200, {
     description: 'Usuario model instance',
     content: {'application/json': {schema: getModelSchemaRef(Usuario)}},
@@ -54,9 +57,9 @@ export class UsuarioController {
         },
       },
     })
-    usuario: Omit<Usuario, 'id'>,
-  ): Promise<Usuario> {
-    return this.usuarioRepository.create(usuario);
+    usuario: Usuario //Omit<Usuario, 'id'>,
+  ): Promise<Object> {    
+    return this.servicioJwt.DevolverTokenRegistro(usuario.mail, usuario);
   }
 
   @get('/usuarios/count')
@@ -155,36 +158,16 @@ export class UsuarioController {
   @post('login',{
     responses:{
       '200':{
-        description: 'Identificacion de usaurios',
-        content: {'application/json': {schema: Credenciales}},
+        description: 'Identificacion de usuarios',
+        content: {'application/json': {schema: getModelSchemaRef(Credenciales)}}
     }
   }
   })
   async identificar(
-
   @requestBody() credenciales:Credenciales
   
-  ): Promise<object>{
-
-    let usuario=await this.usuarioRepository.findOne({where:{nombre_usuario: credenciales.nombre_usuario, password: credenciales.password}});
-                                                  
-              if(usuario)   {
-               
-                let token =this.servicioJwt.CrearTokenJWT(usuario)
-                usuario.password='';
-                
-                return {
-                    usuario: usuario,
-                    token: token,
-                  }
-               }else{
-               
-                throw new HttpErrors[401]("Usuario o clave incorrectos")
-               
-              }                                
+  ): Promise<object>{      
+    return this.servicioJwt.DevolverTokenLogin(credenciales.nombre_usuario, credenciales.password)
   }
-  
-
-  
 
 }

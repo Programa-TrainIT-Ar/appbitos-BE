@@ -12,8 +12,6 @@ export class Usuario extends Entity {
   })
   id?: number;
   
-  
-
   @property({
     type: 'string',
     required: true,
@@ -60,7 +58,7 @@ export class Usuario extends Entity {
 
   @property({
     type: 'boolean',
-    required: true,
+    required: false,
   })
   activo: string;
 
