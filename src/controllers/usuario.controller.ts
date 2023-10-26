@@ -61,9 +61,37 @@ export class UsuarioController {
       },
     })
     usuario: Usuario //Omit<Usuario, 'id'>,
-  ): Promise<Object> {    
+  ): Promise<Object> { 
+    usuario.activo = false;   
     return this.servicioJwt.DevolverTokenRegistro(usuario.mail, usuario);
   }
+
+  @authenticate('basic')
+  @post('/2validar-registro-usuario')
+  @response(200,{
+    description:"Validacion de registro de usuario ",
+  })
+    async verificarusuariotoken()
+    : Promise<object>{
+      let usuario = await this.usuarioRepository.findOne({
+        where:{
+          email: this.usuarioAutenticado.email,
+          id: this.usuarioAutenticado.id,
+          activo: false
+        }
+      
+      })
+      if(usuario){
+        usuario.activo = true; 
+        this.usuarioRepository.updateById(usuario.id, usuario);
+        return {usuario}
+      }
+      
+      return new HttpErrors[401]("No se pudo verificar el usuario");
+  }
+
+
+
 
   @get('/usuarios/count')
   @response(200, {
@@ -76,7 +104,6 @@ export class UsuarioController {
     return this.usuarioRepository.count(where);
   }
 
-  @authenticate("basic")
   @get('/usuarios')
   @response(200, {
     description: 'Array of Usuario model instances',

@@ -60,7 +60,7 @@ export class Usuario extends Entity {
     type: 'boolean',
     required: false,
   })
-  activo: string;
+  activo: boolean;
 
   @property({
     type: 'string',

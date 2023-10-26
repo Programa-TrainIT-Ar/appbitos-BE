@@ -21,20 +21,7 @@ export class AppbitosApplication extends BootMixin(
 ) {
   constructor(options: ApplicationConfig = {}) {
     super(options);
-    var app = express();
-    const { auth } = require('express-openid-connect');
-    const config = {
-      authRequired: false,
-      auth0Logout: true,
-      baseURL: process.env.baseURL,
-      clientID: process.env.clientID,
-      issuerBaseURL: process.env.issuerBaseURL,
-      secret: process.env.secret
-    };
-    this.middleware(auth(config));
-    
-   
-
+  
     // Set up the custom sequence
     this.sequence(MySequence);
 
