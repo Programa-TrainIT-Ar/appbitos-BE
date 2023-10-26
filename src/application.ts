@@ -11,6 +11,8 @@ import {ServiceMixin} from '@loopback/service-proxy';
 import {MiddlewareContext, MiddlewareSequence} from '@loopback/rest';
 import path from 'path';
 import {MySequence} from './sequence';
+import {registerAuthenticationStrategy, AuthenticationComponent } from "@loopback/authentication";
+import { BasicAuthenticationStrategy } from './Autorizacion/Strategy';
 
 export {ApplicationConfig};
 
@@ -57,5 +59,7 @@ export class AppbitosApplication extends BootMixin(
         nested: true,
       },
     };
+    registerAuthenticationStrategy(this, BasicAuthenticationStrategy);
+    this.component(AuthenticationComponent);
   }
 }

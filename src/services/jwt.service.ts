@@ -3,6 +3,8 @@ import { Usuario } from '../models';
 import { HttpErrors, TS_TYPE_KEY } from '@loopback/rest';
 import {UsuarioRepository} from '../repositories';
 import { Null, repository } from '@loopback/repository';
+import { Auth_Keys } from '../Keys/Auth_Keys';
+
 
 
 const jwt=require('jsonwebtoken')
@@ -17,10 +19,20 @@ export class JwtService {
   
   //GENERACION DE TOKEN JWT
 
-  CrearTokenJWT(usuario: Usuario){
+  CrearTokenJWTR(usuario: Usuario){
+    let token=jwt.sign({
 
-    let claveSecreta=jwtKey;
+      exp: expTimeJwt,
+      data:{
+        id: usuario.id,
+        mail: usuario.mail
+      }
+    }, Auth_Keys.claveSecreta);
+    
+    return token;
+  }
 
+  CrearTokenJWTL(usuario: Usuario){
     let token=jwt.sign({
 
       exp: expTimeJwt,
@@ -28,10 +40,9 @@ export class JwtService {
         id: usuario.id,
         nombre_usuario: usuario.nombre_usuario
       }
-    }, claveSecreta);
+    }, Auth_Keys.claveSecreta);
     
     return token;
-
   }
 
   async DevolverTokenLogin(nombre_usuario:String, password: String){
@@ -41,7 +52,7 @@ export class JwtService {
                                             
        if(usuario)   {
                
-        let token =this.CrearTokenJWT(usuario)
+        let token =this.CrearTokenJWTL(usuario)
         usuario.password='';
         
         return {
@@ -50,8 +61,7 @@ export class JwtService {
           }
        }else{
        
-        throw new HttpErrors[401]("Usuario o clave incorrectos")
-       
+        throw new HttpErrors[401]("Usuario o clave incorrectos")       
       }                     
 
     }
@@ -63,7 +73,7 @@ export class JwtService {
                                             
        if(!usuariox) {
         this.usuarioRepository.create(usuario);       
-        let token =this.CrearTokenJWT(usuario)
+        let token =this.CrearTokenJWTR(usuario)
         usuario.password='';
         
         return {
@@ -75,6 +85,11 @@ export class JwtService {
       }                     
 
     }
+
+    static verificartoken(token: string){
+      let decoded = jwt.verify(token,Auth_Keys.claveSecreta);
+      return decoded;
+  }
 
 }
 

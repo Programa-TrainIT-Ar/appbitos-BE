@@ -21,8 +21,10 @@ import {
 import {Usuario} from '../models';
 import {UsuarioRepository} from '../repositories';
 import { JwtService } from '../services';
-import { service } from '@loopback/core';
+import { inject, service } from '@loopback/core';
 import { create } from 'domain';
+import {authenticate} from '@loopback/authentication';
+import { SecurityBindings, UserProfile } from '@loopback/security';
 
 
 class Credenciales{
@@ -36,7 +38,9 @@ export class UsuarioController {
     @repository(UsuarioRepository)
     public usuarioRepository : UsuarioRepository,
     @service(JwtService)
-    public servicioJwt: JwtService
+    public servicioJwt: JwtService,
+    @inject(SecurityBindings.USER, { optional: true })
+    private usuarioAutenticado: UserProfile,
 
   ) {}
 
@@ -72,6 +76,7 @@ export class UsuarioController {
     return this.usuarioRepository.count(where);
   }
 
+  @authenticate("basic")
   @get('/usuarios')
   @response(200, {
     description: 'Array of Usuario model instances',
