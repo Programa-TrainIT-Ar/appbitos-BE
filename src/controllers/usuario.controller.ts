@@ -23,8 +23,9 @@ import {UsuarioRepository} from '../repositories';
 import { JwtService } from '../services';
 import { inject, service } from '@loopback/core';
 import { create } from 'domain';
-import {authenticate} from '@loopback/authentication';
+import {authenticate, AuthenticationBindings, AuthenticationMetadata} from '@loopback/authentication';
 import { SecurityBindings, UserProfile } from '@loopback/security';
+import { Auth_Keys } from '../Keys/Auth_Keys';
 
 
 class Credenciales{
@@ -41,6 +42,7 @@ export class UsuarioController {
     public servicioJwt: JwtService,
     @inject(SecurityBindings.USER, { optional: true })
     private usuarioAutenticado: UserProfile,
+
 
   ) {}
 
@@ -66,17 +68,21 @@ export class UsuarioController {
     return this.servicioJwt.DevolverTokenRegistro(usuario.mail, usuario);
   }
 
-  @authenticate('basic')
+  @authenticate({
+    strategy:"basic",
+    options: [Auth_Keys.v_registro]
+  })
   @post('/2validar-registro-usuario')
   @response(200,{
     description:"Validacion de registro de usuario ",
   })
     async verificarusuariotoken()
     : Promise<object>{
+      //console.log(this.usuarioAutenticado.email);
+      //console.log(this.usuarioAutenticado.id)
       let usuario = await this.usuarioRepository.findOne({
         where:{
           email: this.usuarioAutenticado.email,
-          id: this.usuarioAutenticado.id,
           activo: false
         }
       
@@ -200,5 +206,31 @@ export class UsuarioController {
   ): Promise<object>{      
     return this.servicioJwt.DevolverTokenLogin(credenciales.nombre_usuario, credenciales.password)
   }
+
+  @authenticate({
+    strategy:"basic",
+    options: [Auth_Keys.v_login]
+  })
+  @post('/validar-login-usuario')
+  @response(200,{
+    description:"Validacion de login de usuario ",
+  })
+    async verificarlogintoken()
+    : Promise<object>{
+      let usuario = await this.usuarioRepository.findOne({
+        where:{
+          nombre_usuario: this.usuarioAutenticado.nombre_usuario,
+          id: this.usuarioAutenticado.id,
+        }
+      })
+      if(usuario){
+        return {usuario}
+      }
+      
+      return new HttpErrors[401]("No se pudo verificar el usuario");
+  }
+
+
+
 
 }

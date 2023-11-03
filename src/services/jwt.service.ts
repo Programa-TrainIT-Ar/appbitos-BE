@@ -24,7 +24,6 @@ export class JwtService {
 
       exp: expTimeJwt,
       data:{
-        id: usuario.id,
         mail: usuario.mail
       }
     }, Auth_Keys.claveSecreta);
@@ -37,7 +36,6 @@ export class JwtService {
 
       exp: expTimeJwt,
       data:{
-        id: usuario.id,
         nombre_usuario: usuario.nombre_usuario
       }
     }, Auth_Keys.claveSecreta);
@@ -47,9 +45,7 @@ export class JwtService {
 
   async DevolverTokenLogin(nombre_usuario:String, password: String){
 
-       let usuario=await this.usuarioRepository.findOne({where:{nombre_usuario: nombre_usuario, password: password}});
-
-                                            
+       let usuario=await this.usuarioRepository.findOne({where:{nombre_usuario: nombre_usuario, password: password}});                                            
        if(usuario)   {
                
         let token =this.CrearTokenJWTL(usuario)
@@ -68,9 +64,7 @@ export class JwtService {
 
     async DevolverTokenRegistro(mail:String, usuario: Usuario){
 
-       let usuariox=await this.usuarioRepository.findOne({where:{mail: mail}});
-
-                                            
+       let usuariox=await this.usuarioRepository.findOne({where:{mail: mail}});                                            
        if(!usuariox) {
         this.usuarioRepository.create(usuario);       
         let token =this.CrearTokenJWTR(usuario)
