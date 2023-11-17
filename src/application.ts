@@ -11,6 +11,7 @@ import path from 'path';
 import {MySequence} from './sequence';
 
 
+
 export {ApplicationConfig};
 
 export class AppbitosApplication extends BootMixin(
@@ -47,4 +48,8 @@ export class AppbitosApplication extends BootMixin(
 
 
 }
+
+
+
+
 }

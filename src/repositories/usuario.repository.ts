@@ -5,6 +5,8 @@ import {Usuario, UsuarioRelations, Meta, UsuarioPremio, LogrosUsuario} from '../
 import {MetaRepository} from './meta.repository';
 import {UsuarioPremioRepository} from './usuario-premio.repository';
 import {LogrosUsuarioRepository} from './logros-usuario.repository';
+import { HttpErrors } from '@loopback/rest';
+
 
 export class UsuarioRepository extends DefaultCrudRepository<
   Usuario,
@@ -29,4 +31,45 @@ export class UsuarioRepository extends DefaultCrudRepository<
     this.metas = this.createHasManyRepositoryFactoryFor('metas', metaRepositoryGetter,);
     this.registerInclusionResolver('metas', this.metas.inclusionResolver);
   }
+
+
+  async baja(usuario: Usuario ){
+
+    try{
+    usuario.activo="false";
+
+    await this.replaceById(usuario.id, usuario)
+
+  }catch(err){
+
+    throw new HttpErrors[404]("Usuario no encontrado")
+  }
 }
+
+async bajaMail(mail: string, usuario: Usuario ){
+
+// if(this.find({select:['mail']}))
+//}
+
+
+let ob:object=this.find({where:[
+  {
+    mail: mail
+  }
+]})
+
+   ob=usuario;
+
+   usuario.activo="false";
+
+    await this.replaceById(usuario.id, usuario)
+
+
+
+ 
+
+}
+ 
+
+}
+

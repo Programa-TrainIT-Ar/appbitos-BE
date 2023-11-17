@@ -61,6 +61,8 @@
     "jsonwebtoken": "^9.0.2",
     "loopback-connector-mysql": "^7.0.0",
     "loopback-connector-postgresql": "^5.5.2",
+    "node-fetch": "^3.3.2",
+    "nodemailer": "^6.9.7",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
     "tslib": "^2.0.0"

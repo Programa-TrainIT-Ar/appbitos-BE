@@ -74,6 +74,8 @@ export class Usuario extends Entity {
   })
   password: string;
 
+  
+
 
   @hasMany(() => Meta)
   metas: Meta[];

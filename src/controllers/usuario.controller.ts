@@ -17,11 +17,14 @@ import {
   requestBody,
   response,
   HttpErrors,
-} from '@loopback/rest';
+  RedirectRoute,
+  } from '@loopback/rest';
+  
 import {Usuario} from '../models';
 import {UsuarioRepository} from '../repositories';
 import { service } from '@loopback/core';
 import { JwtService } from '../services';
+import { EmailenvioService } from '../services/emailenvio.service';
 
 
 var passport =require('passport');
@@ -29,6 +32,11 @@ var passport =require('passport');
 class Credenciales{
   nombre_usuario: string;
   password:string;
+  }
+
+  
+class CredencialesNotiMail{
+  mail: string;
 }
 
 export class UsuarioController {
@@ -37,7 +45,9 @@ export class UsuarioController {
     @repository(UsuarioRepository)
     public usuarioRepository : UsuarioRepository,
     @service(JwtService)
-    public servicioJwt: JwtService
+    public servicioJwt: JwtService,
+    @service(EmailenvioService)
+    public emailEnvio:EmailenvioService
 
   ) {}
 
@@ -59,6 +69,7 @@ export class UsuarioController {
     })
     usuario: Usuario //Omit<Usuario, 'id'>,
   ): Promise<Object> {    
+ 
     return this.servicioJwt.DevolverTokenRegistro(usuario.mail, usuario);
   }
 
@@ -153,7 +164,32 @@ export class UsuarioController {
     @requestBody() usuario: Usuario,
   ): Promise<void> {
     await this.usuarioRepository.replaceById(id, usuario);
+    
   }
+
+  @put('/usuarios/baja/{id}')
+  @response(204, {
+    description: 'Baja de Usuario',
+   })
+  async bajaUsuario(
+    
+    @param.path.number('id') id: number,
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(Usuario, {partial: true}),
+        },
+      },
+    }) usuario: Usuario,
+    
+  ): Promise<void> {
+    
+    this.emailEnvio.envioMail();
+    await this.usuarioRepository.baja(await this.findById(id));
+    
+  }
+
+
 
   @post('login',{
     responses:{
@@ -169,5 +205,8 @@ export class UsuarioController {
   ): Promise<object>{      
     return this.servicioJwt.DevolverTokenLogin(credenciales.nombre_usuario, credenciales.password)
   }
+
+
+
 
 }
