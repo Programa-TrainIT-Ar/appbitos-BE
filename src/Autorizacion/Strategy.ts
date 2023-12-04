@@ -39,12 +39,7 @@ export class BasicAuthenticationStrategy implements AuthenticationStrategy {
           let usuario:UserProfile = Object.assign({
             nombre_usuario: info.nombre_usuario
           })
-        }else if(tipo == Auth_Keys.V_cambio_contrasena){
-          let usuario:UserProfile = Object.assign({
-            nombre_usuario: info.nombre_usuario
-          })
         }
-
         return usuario
       }
 
