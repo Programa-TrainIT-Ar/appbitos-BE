@@ -297,6 +297,4 @@ export class UsuarioController {
       
   }
 
-
-
 }

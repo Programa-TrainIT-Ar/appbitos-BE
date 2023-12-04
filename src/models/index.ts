@@ -8,3 +8,4 @@ export * from './usuario-premio.model';
 export * from './tareasimple-tareacompuesta.model';
 export * from './tareacompuesta-logro.model';
 export * from './logros-usuario.model';
+export * from './ca-tareas.model';

@@ -1,44 +1,12 @@
 import {Entity, model, property, hasMany} from '@loopback/repository';
 import {TareacompuestaLogro} from './tareacompuesta-logro.model';
 import {TareasimpleTareacompuesta} from './tareasimple-tareacompuesta.model';
+import { CaTareas } from './ca-tareas.model';
 
 @model()
-export class TareaCompuesta extends Entity {
-  @property({
-    type: 'string',
-    required: true,
-  })
-  titulo: string;
+export class TareaCompuesta extends Entity implements CaTareas {
+  
 
-  @property({
-    type: 'string',
-    required: true,
-  })
-  descripcion: string;
-
-  @property({
-    type: 'boolean',
-    required: true,
-  })
-  asignar_meta: boolean;
-
-  @property({
-    type: 'boolean',
-    required: true,
-  })
-  completado: boolean;
-
-  @property({
-    type: 'number',
-    id: true,
-    generated: true,
-  })
-  id?: number;
-
-  @property({
-    type: 'number',
-  })
-  metaId?: number;
 
   @hasMany(() => TareacompuestaLogro)
   tareacompuestaLogroes: TareacompuestaLogro[];
@@ -49,6 +17,11 @@ export class TareaCompuesta extends Entity {
   constructor(data?: Partial<TareaCompuesta>) {
     super(data);
   }
+  id?: number | undefined;
+  completado: boolean;
+  Titulo: string;
+  Descripcion: string;
+  metaId: number;
 }
 
 export interface TareaCompuestaRelations {

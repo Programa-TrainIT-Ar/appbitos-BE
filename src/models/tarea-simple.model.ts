@@ -1,32 +1,10 @@
 import {Entity, model, property, hasMany} from '@loopback/repository';
 import {TareasimpleTareacompuesta} from './tareasimple-tareacompuesta.model';
+import { CaTareas } from './ca-tareas.model';
 
 @model()
-export class TareaSimple extends Entity {
-  @property({
-    type: 'number',
-    id: true,
-    generated: true,
-  })
-  id?: number;
+export class TareaSimple extends Entity implements CaTareas{
 
-  @property({
-    type: 'string',
-    required: true,
-  })
-  titulo: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  descripcion: string;
-
-  @property({
-    type: 'boolean',
-    required: true,
-  })
-  completado: boolean;
 
   @hasMany(() => TareasimpleTareacompuesta)
   tareasimpleTareacompuestas: TareasimpleTareacompuesta[];
@@ -34,6 +12,11 @@ export class TareaSimple extends Entity {
   constructor(data?: Partial<TareaSimple>) {
     super(data);
   }
+  Titulo: string;
+  id?: number | undefined;
+  completado: boolean;
+  Descripcion: string;
+  metaId: number;
 }
 
 export interface TareaSimpleRelations {

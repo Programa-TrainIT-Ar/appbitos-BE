@@ -1,6 +1,8 @@
 import {Entity, model, property, belongsTo, hasMany} from '@loopback/repository';
 import {Usuario} from './usuario.model';
 import {TareaCompuesta} from './tarea-compuesta.model';
+import {CaTareas} from './ca-tareas.model';
+import {TareaSimple} from './tarea-simple.model';
 
 @model()
 export class Meta extends Entity {
@@ -35,12 +37,22 @@ export class Meta extends Entity {
   })
   objetivo: string;
 
+/* @property({
+    type: 'array',
+    required: true,
+  })
+  lista: CaTareas;*/
+
   @belongsTo(() => Usuario)
   usuarioId: number;
 
+ /* @hasMany(() => TareaCompuesta, TareaSimple)
+  caTareas: CaTareas[];*/
+
+/*
   @hasMany(() => TareaCompuesta)
   tareaCompuestas: TareaCompuesta[];
-
+*/
   constructor(data?: Partial<Meta>) {
     super(data);
   }

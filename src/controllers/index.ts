@@ -11,3 +11,7 @@ export * from './tarea-compuesta-tareasimple-tareacompuesta.controller';
 export * from './tarea-simple-tareasimple-tareacompuesta.controller';
 export * from './logros-logros-usuario.controller';
 export * from './usuario-logros-usuario.controller';
+export * from './meta.controller';
+export * from './meta-ca-tareas.controller';
+export * from './ca-tareas-meta.controller';
+export * from './catareas.controller';

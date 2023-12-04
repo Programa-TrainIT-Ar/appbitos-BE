@@ -9,3 +9,4 @@ export * from './usuario-premio.repository';
 export * from './tareasimple-tareacompuesta.repository';
 export * from './tareacompuesta-logro.repository';
 export * from './logros-usuario.repository';
+export * from './ca-tareas.repository';
