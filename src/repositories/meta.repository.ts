@@ -24,4 +24,8 @@ export class MetaRepository extends DefaultCrudRepository<
     this.usuario = this.createBelongsToAccessorFor('usuario', usuarioRepositoryGetter,);
     this.registerInclusionResolver('usuario', this.usuario.inclusionResolver);
   }
+  /*
+  async hola(): Promise<String>{
+    return ("hola")
+  }*/
 }
