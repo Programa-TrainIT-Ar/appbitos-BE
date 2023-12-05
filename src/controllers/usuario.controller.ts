@@ -33,11 +33,6 @@ class Credenciales{
   password:string;
 }
 
-class Contrasena{
-  contrasena:string
-  contrasena2:string
-}
-
 export class UsuarioController {
   constructor(
     
@@ -236,66 +231,7 @@ export class UsuarioController {
   }
 
 
-  @post('Cambio-Contrasena',{
-    responses:{
-      '200':{
-        description: 'Cambio de contrasena',
-        content: {'application/json': {schema: getModelSchemaRef(Credenciales)}}
-    }
-  }
-  })
-  async Cambiar_Contrasena(
-  @requestBody() credenciales:Credenciales
-  
-  ): Promise<object>{   
-    let usuario = await this.usuarioRepository.findOne({
-      where:{
-        nombre_usuario: credenciales.nombre_usuario,
-        password: credenciales.password
-      }
-    })
-    if(usuario){
-      return {Usuario:usuario,
-      token: this.servicioJwt.CrearTokenJWTCC(usuario)}
-    }
-    else{
-      throw new HttpErrors[401]("Usuario o clave incorrectos")  
-    }
-  }
 
-  @authenticate({
-    strategy:"basic",
-    options: [Auth_Keys.V_cambio_contrasena]
-  })
-  @post('validar-Cambio-Contrasena',{
-    responses:{
-      '200':{
-        description: 'Cambio de contrasena',
-        content: {'application/json': {schema:getModelSchemaRef (Contrasena)}}
-    }
-  }
-  })
-    async verificarcontrasenatoken(
-      @requestBody() contrasena:Contrasena
-    )
-    : Promise<object>{
-      if(contrasena.contrasena != contrasena.contrasena2){return new HttpErrors[401]("Contrasenas distintas");}
-
-      let usuario = await this.usuarioRepository.findOne({
-        where:{
-          nombre_usuario: this.usuarioAutenticado.nombre_usuario,
-          password: this.usuarioAutenticado.password,
-        }
-      
-      })
-      if(usuario){
-        usuario.password = contrasena.contrasena; 
-        this.usuarioRepository.updateById(usuario.id, usuario);
-        return {usuario}
-      }
-      else{return new HttpErrors[401]("No se pudo verificar el usuario");}
-      
-  }
 
 
 
