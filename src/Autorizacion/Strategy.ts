@@ -33,8 +33,7 @@ export class BasicAuthenticationStrategy implements AuthenticationStrategy {
         if (tipo == Auth_Keys.v_registro){
           let usuario:UserProfile = Object.assign({
             mail: info.mail
-          })
-          
+          })          
         }else if(tipo == Auth_Keys.v_login){
           let usuario:UserProfile = Object.assign({
             nombre_usuario: info.nombre_usuario
@@ -44,7 +43,6 @@ export class BasicAuthenticationStrategy implements AuthenticationStrategy {
             nombre_usuario: info.nombre_usuario
           })
         }
-
         return usuario
       }
 

@@ -74,6 +74,12 @@ export class Usuario extends Entity {
   })
   password: string;
 
+  @property({
+    type: 'string',
+    required: false,
+  })
+  token: string;
+
 
   @hasMany(() => Meta)
   metas: Meta[];

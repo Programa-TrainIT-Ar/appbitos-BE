@@ -62,7 +62,7 @@ export class UsuarioController {
         'application/json': {
           schema: getModelSchemaRef(Usuario, {
             title: 'NewUsuario',
-            exclude: ['id'],
+            exclude: ['id', 'activo', 'token'],
           }),
         },
       },
@@ -208,8 +208,22 @@ export class UsuarioController {
   async identificar(
   @requestBody() credenciales:Credenciales
   
-  ): Promise<object>{      
-    return this.servicioJwt.DevolverTokenLogin(credenciales.nombre_usuario, credenciales.password)
+  ): Promise<object>{
+    let usuario = await this.usuarioRepository.findOne({
+      where:{
+        nombre_usuario: credenciales.nombre_usuario,
+        password:credenciales.nombre_usuario,
+      }
+    })
+    
+    if (usuario && (usuario.activo = true)){
+      const resultado= (await this.servicioJwt.DevolverTokenLogin(credenciales.nombre_usuario, credenciales.password)).token
+      usuario.token = resultado.token;
+      return resultado;
+    }
+    else{
+      return new HttpErrors[401]("No se encontro el usuario");
+    }
   }
 
   @authenticate({
@@ -296,9 +310,44 @@ export class UsuarioController {
       
   }
 
+  @authenticate({
+    strategy:"basic",
+    options: [Auth_Keys.V_cambio_contrasena]
+  })
+  @post('baja-logica',{
+    responses:{
+      '200':{
+        description: 'Baja logica'       
+    }
+  }
+  })
+    async bajalogica(
+    )
+    : Promise<object>{
+      //todo
+
+      return new HttpErrors[401]("No esta logeado el usuario");
+    }
 
 
 
+  @authenticate({
+  strategy:"basic",
+    options: [Auth_Keys.V_cambio_contrasena]
+  })
+  @post('validar-baja-logica',{
+    responses:{
+      '200':{
+        description: 'validar Baja logica'       
+    }
+  }
+  })
+  async validarbajalogica(
+    )
+    : Promise<object>{
+      //todo
 
+      return new HttpErrors[401]("No se puedo hacer baja logica");
+    }
 
 }
