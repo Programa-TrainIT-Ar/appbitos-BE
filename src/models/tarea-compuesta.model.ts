@@ -1,6 +1,6 @@
 import {Entity, model, property, hasMany} from '@loopback/repository';
 import {TareacompuestaLogro} from './tareacompuesta-logro.model';
-import {TareasimpleTareacompuesta} from './tareasimple-tareacompuesta.model';
+import { TareaSimple } from './tarea-simple.model';
 
 @model()
 export class TareaCompuesta extends Entity {
@@ -43,8 +43,8 @@ export class TareaCompuesta extends Entity {
   @hasMany(() => TareacompuestaLogro)
   tareacompuestaLogroes: TareacompuestaLogro[];
 
-  @hasMany(() => TareasimpleTareacompuesta)
-  tareasimpleTareacompuestas: TareasimpleTareacompuesta[];
+  @hasMany(() => TareaSimple)
+  TareaSimple: TareaSimple[];
 
   constructor(data?: Partial<TareaCompuesta>) {
     super(data);

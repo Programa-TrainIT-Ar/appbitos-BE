@@ -1,5 +1,4 @@
 import {Entity, model, property, hasMany} from '@loopback/repository';
-import {TareasimpleTareacompuesta} from './tareasimple-tareacompuesta.model';
 
 @model()
 export class TareaSimple extends Entity {
@@ -28,8 +27,10 @@ export class TareaSimple extends Entity {
   })
   completado: boolean;
 
-  @hasMany(() => TareasimpleTareacompuesta)
-  tareasimpleTareacompuestas: TareasimpleTareacompuesta[];
+  @property({
+    type: 'number',
+  })
+  tareaCompuestaId?: number;
 
   constructor(data?: Partial<TareaSimple>) {
     super(data);

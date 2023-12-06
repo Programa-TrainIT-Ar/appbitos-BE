@@ -5,6 +5,5 @@ export * from './tarea-compuesta.model';
 export * from './tarea-simple.model';
 export * from './logros.model';
 export * from './usuario-premio.model';
-export * from './tareasimple-tareacompuesta.model';
 export * from './tareacompuesta-logro.model';
 export * from './logros-usuario.model';
