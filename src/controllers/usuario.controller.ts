@@ -33,6 +33,11 @@ class Credenciales{
   password:string;
 }
 
+class Contrasena{
+  contrasena:string
+  contrasena2:string
+}
+
 export class UsuarioController {
   constructor(
     

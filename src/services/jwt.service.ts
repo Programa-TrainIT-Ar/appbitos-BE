@@ -43,6 +43,19 @@ export class JwtService {
     return token;
   }
 
+  CrearTokenJWTCC(usuario: Usuario){
+    let token=jwt.sign({
+
+      exp: expTimeJwt,
+      data:{
+        nombre_usuario: usuario.nombre_usuario,
+        password: usuario.password
+      }
+    }, Auth_Keys.claveSecreta);
+    
+    return token;
+  }
+
   async DevolverTokenLogin(nombre_usuario:String, password: String){
 
        let usuario=await this.usuarioRepository.findOne({where:{nombre_usuario: nombre_usuario, password: password}});                                            
@@ -86,5 +99,3 @@ export class JwtService {
   }
 
 }
-
-
