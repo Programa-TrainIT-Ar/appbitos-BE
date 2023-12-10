@@ -23,26 +23,29 @@ export class BasicAuthenticationStrategy implements AuthenticationStrategy {
       }
       else{
         let info = JwtService.verificartoken(token);
+
         let tipoaux = this.metadata[0].options!;
         let tipo = tipoaux[0];
         
         let usuario:UserProfile = Object.assign({
           id: "",
-          nombre_usuario: ""
+          nombre_usuario: "",
+          email:"",
         })
         if (tipo == Auth_Keys.v_registro){
-          let usuario:UserProfile = Object.assign({
-            mail: info.mail
-          })          
+          usuario = Object.assign({
+            email: info.data.mail
+          })  
         }else if(tipo == Auth_Keys.v_login){
-          let usuario:UserProfile = Object.assign({
-            nombre_usuario: info.nombre_usuario
+          usuario = Object.assign({
+            nombre_usuario: info.data.nombre_usuario
           })
         }else if(tipo == Auth_Keys.V_cambio_contrasena){
-          let usuario:UserProfile = Object.assign({
-            nombre_usuario: info.nombre_usuario
+          usuario = Object.assign({
+            nombre_usuario: info.data.nombre_usuario
           })
         }
+
         return usuario
       }
 

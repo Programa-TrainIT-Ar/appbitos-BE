@@ -87,14 +87,14 @@ export class UsuarioController {
     description: 'Validacion de registro de usuario ',
   })
   async verificarusuariotoken(): Promise<object> {
-    console.log(this.usuarioAutenticado.email);
-    console.log(this.usuarioAutenticado.id)
+
     let usuario = await this.usuarioRepository.findOne({
       where: {
-        email: this.usuarioAutenticado.email,
+        mail: this.usuarioAutenticado.email,
         activo: false,
       },
     });
+    
     if (usuario) {
       usuario.activo = true;
       this.usuarioRepository.updateById(usuario.id, usuario);
