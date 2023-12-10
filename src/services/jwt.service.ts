@@ -11,6 +11,7 @@ const jwt=require('jsonwebtoken')
 const jwtKey='ClaveAppbitos';
 const expTimeJwt=(Date.now() / 1000) + (60 * 60 * 10);
 
+
 @injectable({scope: BindingScope.TRANSIENT})
 export class JwtService {
   constructor( @repository(UsuarioRepository)
@@ -56,14 +57,12 @@ export class JwtService {
     return token;
   }
 
-  async DevolverTokenLogin(nombre_usuario:String, password: String){
+  async DevolverTokenLoginYBaja(nombre_usuario:String, password: String){
 
        let usuario=await this.usuarioRepository.findOne({where:{nombre_usuario: nombre_usuario, password: password}});                                            
-       if(usuario)   {
-               
+       if(usuario) {               
         let token =this.CrearTokenJWTL(usuario)
-        usuario.password='';
-        
+        usuario.password='';        
         return {
             usuario: usuario,
             token: token,
@@ -94,8 +93,15 @@ export class JwtService {
     }
 
     static verificartoken(token: string){
-      let decoded = jwt.verify(token,Auth_Keys.claveSecreta);
-      return decoded;
+      try{
+        let decoded = jwt.verify(token,Auth_Keys.claveSecreta);
+        return decoded;
+      }
+      catch(e){
+        throw new HttpErrors[401]("Expiro el token")   
+      }      
   }
 
-}
+ }
+
+

@@ -87,8 +87,8 @@ export class UsuarioController {
     description: 'Validacion de registro de usuario ',
   })
   async verificarusuariotoken(): Promise<object> {
-    //console.log(this.usuarioAutenticado.email);
-    //console.log(this.usuarioAutenticado.id)
+    console.log(this.usuarioAutenticado.email);
+    console.log(this.usuarioAutenticado.id)
     let usuario = await this.usuarioRepository.findOne({
       where: {
         email: this.usuarioAutenticado.email,
@@ -218,7 +218,7 @@ export class UsuarioController {
 
     if (usuario && (usuario.activo = true)) {
       const resultado = (
-        await this.servicioJwt.DevolverTokenLogin(
+        await this.servicioJwt.DevolverTokenLoginYBaja(
           credenciales.nombre_usuario,
           credenciales.password,
         )
@@ -340,15 +340,14 @@ export class UsuarioController {
     if (usuario && usuario.token != null) {
       try { 
         JwtService.verificartoken(usuario.token)
-        return this.servicioJwt.DevolverTokenLogin(usuario.nombre_usuario, usuario.password)
+        return this.servicioJwt.DevolverTokenLoginYBaja(usuario.nombre_usuario, usuario.password)
       } catch (e) {
         return new HttpErrors[401]('Token vencido');
       }
     }
     else {
       return new HttpErrors[401]('No esta logeado el usuario');
-    }
-    
+    }    
   }
 
   @authenticate({
