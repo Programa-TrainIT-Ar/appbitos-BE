@@ -212,18 +212,18 @@ export class UsuarioController {
     let usuario = await this.usuarioRepository.findOne({
       where: {
         nombre_usuario: credenciales.nombre_usuario,
-        password: credenciales.nombre_usuario,
+        password: credenciales.password,
       },
     });
-
-    if (usuario && (usuario.activo = true)) {
+    if (usuario && (usuario.activo == true)) {
       const resultado = (
         await this.servicioJwt.DevolverTokenLoginYBaja(
           credenciales.nombre_usuario,
           credenciales.password,
         )
       ).token;
-      usuario.token = resultado.token;
+      usuario.token = resultado;
+      this.usuarioRepository.updateById(usuario.id, usuario);
       return resultado;
     } else {
       return new HttpErrors[401]('No se encontro el usuario');
@@ -315,10 +315,6 @@ export class UsuarioController {
     }
   }
 
-  @authenticate({
-    strategy: 'basic',
-    options: [Auth_Keys.V_cambio_contrasena],
-  })
   @post('baja-logica', {
     responses: {
       '200': {
@@ -337,7 +333,7 @@ export class UsuarioController {
         nombre_usuario: bajalogica.nombre_usuario,
       },
     });
-    if (usuario && usuario.token != null) {
+    if (usuario && (usuario.token != null)) {
       try { 
         JwtService.verificartoken(usuario.token)
         return this.servicioJwt.DevolverTokenLoginYBaja(usuario.nombre_usuario, usuario.password)
