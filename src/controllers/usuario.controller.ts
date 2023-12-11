@@ -348,7 +348,7 @@ export class UsuarioController {
 
   @authenticate({
     strategy: 'basic',
-    options: [Auth_Keys.V_cambio_contrasena],
+    options: [Auth_Keys.V_baja_logica],
   })
   @post('validar-baja-logica', {
     responses: {

@@ -45,6 +45,11 @@ export class BasicAuthenticationStrategy implements AuthenticationStrategy {
             nombre_usuario: info.data.nombre_usuario
           })
         }
+        else if(tipo == Auth_Keys.V_baja_logica){
+          usuario = Object.assign({
+            nombre_usuario: info.data.nombre_usuario
+          })
+        }
 
         return usuario
       }
